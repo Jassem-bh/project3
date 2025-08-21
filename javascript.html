@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jeux</title>
+    <style>
+     
+        body {
+      background-image: url(rock-paper-scissors-today-tease-160317.jpg);
+      background-repeat: no-repeat;
+      width: 100%;
+      height: 100%;
+      
+      
+}
+#resultat{
+    color: rgb(32, 187, 145);
+    font-size: 28px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+   #botScore{
+    color: rgb(13, 169, 37);
+    
+
+}
+#utl{
+    color: rgb(13, 169, 37);
+
+}
+p{
+    color: rgb(127, 45, 174);
+    font-weight: bold;
+    font-size: 20px;
+
+}
+    h2{
+        color: white;
+        text-align: center;
+        font-size: 40px;
+        font-family: 'Courier New', Courier, monospace;
+
+    }
+    .taf{
+        width: 100px;
+        height: 100px;
+        border-radius: 15px;
+        align-items: center;
+        
+        
+    }
+    
+   .container{
+    display: flex;
+    justify-content: space-evenly;
+
+   }
+   button{
+    width: 80px;
+    height: 40px;
+    border-radius: 1em;
+    box-shadow: 3px 2px 3px rgb(237, 230, 230);
+   }
+   button:hover{
+      background-color: rgb(15, 172, 62);
+      box-shadow: 3px 2px 3px rgb(136, 169, 125);
+      width:85px ;
+      height: 45px;
+
+   }
+   input{
+    width: 50px;
+   }
+    </style>
+</head>
+<body>
+    <h2> Play Go !</h2>
+    <div class="container">
+    <div class="content1" >
+    <img src="me9ass.png" alt="" class="taf" onclick="choix('me9ass')" id="m">
+<img src="bounya.png" alt="" class="taf" onclick="choix('bounya')" id="b">
+<img src="wara9a.png" alt="" class="taf" onclick="choix('wara9a')" id="w">
+<p>Score Joueur : <span id="utl">0</span></p>
+</div>
+<button onclick="randomimg()">Jouer</button>
+
+<div class="content2">
+  <img src="bot.jpg" alt="" class="taf" id="bot">
+  <p>Score Bot : <span id="botScore">0</span></p>
+</div>
+
+
+
+<p id="resultat"></p>
+
+<script>
+  let playerChoice = null; // choix du joueur
+  let playerScore = 0;
+  let botScore = 0;
+
+  // Choix du joueur
+  function choix(ch) {
+    playerChoice = ch;
+
+    // Reset bordures
+    document.getElementById('m').style.border = "none";
+    document.getElementById('b').style.border = "none";
+    document.getElementById('w').style.border = "none";
+
+    // Ajouter la bordure sur le choix sélectionné
+    if (ch === "me9ass") document.getElementById('m').style.border = "3px solid gray";
+    if (ch === "bounya") document.getElementById('b').style.border = "3px solid gray";
+    if (ch === "wara9a") document.getElementById('w').style.border = "3px solid gray";
+  }
+
+  // Bot choisit aléatoirement et on compare
+  function randomimg() {
+    if (!playerChoice) {
+      document.getElementById('resultat').innerText = "⚠️ Choisis d'abord ton coup !";
+      return;
+    }
+
+    const choices = ["me9ass", "wara9a", "bounya"];
+    let randomIndex = Math.floor(Math.random() * choices.length);
+    let botChoice = choices[randomIndex];
+
+    // Affiche image du bot
+    document.getElementById('bot').src = botChoice + ".png";
+
+    // Comparer choix
+    if (playerChoice === botChoice) {
+      document.getElementById('resultat').innerText = "Égalité ! 🤝";
+    } else if (
+      (playerChoice === "me9ass" && botChoice === "wara9a") ||
+      (playerChoice === "wara9a" && botChoice === "bounya") ||
+      (playerChoice === "bounya" && botChoice === "me9ass")
+    ) {
+      playerScore++;
+      document.getElementById('utl').innerText = playerScore;
+      document.getElementById('resultat').innerText = "Tu gagnes ce tour 🎉";
+    } else {
+      botScore++;
+      document.getElementById('botScore').innerText = botScore;
+      document.getElementById('resultat').innerText = "Le bot gagne ce tour 🤖";
+    }
+
+    // Vérifier victoire
+    if (playerScore === 5) {
+      alert("🎉 BRAVO ! Tu as gagné la partie !");
+      resetGame();
+    } else if (botScore === 5) {
+      alert("🤖 Le bot a gagné la partie !");
+      resetGame();
+    }
+  }
+
+  // Réinitialiser
+  function resetGame() {
+    playerScore = 0;
+    botScore = 0;
+    document.getElementById('utl').innerText = 0;
+    document.getElementById('botScore').innerText = 0;
+    document.getElementById('resultat').innerText = "";
+    document.getElementById('bot').src = "bot.jpg";
+    playerChoice = null;
+    document.getElementById('m').style.border = "none";
+    document.getElementById('b').style.border = "none";
+    document.getElementById('w').style.border = "none";
+  }
+</script>
